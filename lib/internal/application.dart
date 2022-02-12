@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:page_viewer/internal/locator.dart';
+import 'package:page_viewer/internal/logger.dart';
 import 'package:page_viewer/internal/navigation/navigation.dart';
 import 'package:page_viewer/presentation/pages/home_page/home_page.dart';
 
@@ -51,13 +52,7 @@ class _ApplicationState extends State<Application> {
     final Size size = window.physicalSize;
     final double ratio = window.devicePixelRatio;
     final double width = min(size.width / ratio, size.height / ratio);
-    // TODO: make logger
-    debugPrint(width.toString());
+    logInDebug(width.toString());
     return width > 600;
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }
