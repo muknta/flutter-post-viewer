@@ -32,7 +32,7 @@ class PostViewerBloc with BlocStreamMixin {
     } else if (event is TapOnLoadPostsButtonEvent || event is TapOnTryAgainButtonEvent) {
       await _fetchPostsAndUpdateState();
     } else if (event is TapOnPostFromListEvent) {
-      await _fetchCommentsByPostIdAndRouteToPost(postEntity: event.postEntity);
+      await _fetchCommentsAndRouteToPostPage(postEntity: event.postEntity);
     } else if (event is TapOnBackButtonFromPostPageEvent) {
       locator<NavigationService>().navigateTo(homeRoute);
     }
@@ -43,7 +43,7 @@ class PostViewerBloc with BlocStreamMixin {
     _addPostState(LoadedPostsState(posts: postList));
   }
 
-  Future<void> _fetchCommentsByPostIdAndRouteToPost({required PostEntity postEntity}) async {
+  Future<void> _fetchCommentsAndRouteToPostPage({required PostEntity postEntity}) async {
     final List<CommentEntity> commentList =
         await FetchCommentsByPostId(remoteRepository: locator<IRemoteRepository>()).execute(params: postEntity.id);
     locator<NavigationService>().navigateTo(

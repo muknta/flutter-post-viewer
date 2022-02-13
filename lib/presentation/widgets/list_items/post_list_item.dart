@@ -30,34 +30,47 @@ class _PostListItemState extends State<PostListItem> {
   }
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-        onTap: () => _postBloc.addEvent(
-          TapOnPostFromListEvent(postEntity: widget._postEntity),
-        ),
-        child: Container(
-          decoration: BoxDecoration(
-            color: _postListTheme.itemBackgroundColor,
-            borderRadius: BorderRadius.circular(_postListTheme.itemBorderRadius),
-            boxShadow: [
-              BoxShadow(
-                color: _postListTheme.itemShadowColor,
-                blurRadius: _postListTheme.itemShadowBlurRadius,
-                spreadRadius: _postListTheme.itemShadowSpreadRadius,
-              )
-            ],
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: GestureDetector(
+          onTap: () => _postBloc.addEvent(
+            TapOnPostFromListEvent(postEntity: widget._postEntity),
           ),
-          child: Row(
-            children: <Widget>[
-              TextWidget(
-                widget._postEntity.id.toString(),
-                color: _postListTheme.itemTextColor,
-              ),
-              const Spacer(),
-              TextWidget(
-                widget._postEntity.title,
-                color: _postListTheme.itemTextColor,
-              ),
-            ],
+          child: Container(
+            padding: const EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+              color: _postListTheme.itemBackgroundColor,
+              borderRadius: BorderRadius.circular(_postListTheme.itemBorderRadius),
+              boxShadow: [
+                BoxShadow(
+                  color: _postListTheme.itemShadowColor,
+                  blurRadius: _postListTheme.itemShadowBlurRadius,
+                  spreadRadius: _postListTheme.itemShadowSpreadRadius,
+                )
+              ],
+            ),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 3,
+                  child: TextWidget(
+                    widget._postEntity.id.toString(),
+                    color: _postListTheme.itemTextColor,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                const Spacer(flex: 2),
+                Expanded(
+                  flex: 30,
+                  child: TextWidget(
+                    widget._postEntity.title,
+                    color: _postListTheme.itemTextColor,
+                    fontSize: 16,
+                    maxLines: 2,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       );
