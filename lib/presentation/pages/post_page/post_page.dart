@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:page_viewer/domain/entities/post_entity.dart';
 import 'package:page_viewer/presentation/blocs/post_viewer_bloc/post_viewer_bloc.dart';
-import 'package:page_viewer/presentation/utils/extensions/bloc_context_finder_extension.dart';
-import 'package:page_viewer/presentation/widgets/main_scaffold.dart';
+import 'package:page_viewer/presentation/widgets/layout/main_scaffold.dart';
 
 class PostPage extends StatefulWidget {
   PostPage({Key? key, required PostEntity postEntity})
@@ -28,9 +27,7 @@ class _PostPageState extends State<PostPage> {
 
   @override
   Widget build(BuildContext context) => MainScaffold(
-        onTapBackButton: _postBloc.addEvent(
-            // TODO: back button pressed
-            ),
+        onBackButtonTap: () => _postBloc.addEvent(const TapOnBackButtonFromPostPageEvent()),
         title: widget._title,
         // TODO: implement body
         body: const SizedBox.shrink(),

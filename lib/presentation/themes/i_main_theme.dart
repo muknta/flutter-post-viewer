@@ -7,4 +7,6 @@ abstract class IMainTheme {
 
   Color get appBarBackgroundColor;
   Color get appBarTextColor;
+
+  Color get loaderColor;
 }

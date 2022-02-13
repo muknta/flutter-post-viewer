@@ -9,6 +9,7 @@ import 'package:page_viewer/internal/navigation/navigation.dart';
 import 'package:page_viewer/presentation/blocs/post_viewer_bloc/post_viewer_bloc.dart';
 import 'package:page_viewer/presentation/blocs/theme_bloc/theme_bloc.dart';
 import 'package:page_viewer/presentation/pages/home_page/home_page.dart';
+import 'package:page_viewer/presentation/widgets/simplifiers/loader.dart';
 import 'package:provider/provider.dart';
 
 class Application extends StatefulWidget {
@@ -47,8 +48,7 @@ class _ApplicationState extends State<Application> {
           future: locator.allReady(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              // TODO: custom loader
-              return const SizedBox.shrink(); //CustomLoader();
+              return const Loader();
             }
             return MaterialApp(
               theme: ThemeData(

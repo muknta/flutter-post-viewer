@@ -11,4 +11,7 @@ class MainDarkTheme implements IMainTheme {
   Color get appBarBackgroundColor => Colors.black;
   @override
   Color get appBarTextColor => Colors.white;
+
+  @override
+  Color get loaderColor => Colors.white;
 }

@@ -4,6 +4,7 @@ import 'package:page_viewer/presentation/themes/i_theme.dart';
 import 'package:page_viewer/presentation/utils/mixins/bloc_stream_mixin.dart';
 import 'package:rxdart/rxdart.dart';
 
+export 'package:page_viewer/presentation/utils/extensions/bloc_context_finder_extension.dart';
 part 'theme_event.dart';
 part 'theme_state.dart';
 

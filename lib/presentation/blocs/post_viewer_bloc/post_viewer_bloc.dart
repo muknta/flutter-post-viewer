@@ -1,7 +1,9 @@
 import 'package:equatable/equatable.dart';
+import 'package:page_viewer/domain/entities/post_entity.dart';
 import 'package:page_viewer/presentation/utils/mixins/bloc_stream_mixin.dart';
 import 'package:rxdart/rxdart.dart';
 
+export 'package:page_viewer/presentation/utils/extensions/bloc_context_finder_extension.dart';
 part 'post_viewer_event.dart';
 part 'post_viewer_state.dart';
 
@@ -11,13 +13,18 @@ class PostViewerBloc with BlocStreamMixin {
   }
 
   final _eventController = BehaviorSubject<PostViewerEvent>();
-  Stream<PostViewerEvent> get eventStream => _eventController.stream;
   Function(PostViewerEvent) get addEvent => sinkAdd(_eventController);
+
+  final _postStateController = BehaviorSubject<PostViewerState>();
+  Stream<PostViewerState> get postStateStream => _postStateController.stream;
+  Function(PostViewerState) get _addPostState => sinkAdd(_postStateController);
 
   void _handleEvent(PostViewerEvent event) {
     if (event is LoadPostsEvent) {
       // TODO: implement
-    } else if (event is OpenPostEvent) {
+    } else if (event is TapOnPostFromListEvent) {
+      // TODO: implement
+    } else if (event is TapOnBackButtonFromPostPageEvent) {
       // TODO: implement
     }
   }
@@ -26,6 +33,9 @@ class PostViewerBloc with BlocStreamMixin {
   void dispose() {
     if (isStreamNotClosed(_eventController)) {
       _eventController.close();
+    }
+    if (isStreamNotClosed(_postStateController)) {
+      _postStateController.close();
     }
   }
 }

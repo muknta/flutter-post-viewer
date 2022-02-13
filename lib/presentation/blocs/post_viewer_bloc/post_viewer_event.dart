@@ -14,9 +14,18 @@ class LoadPostsEvent extends PostViewerEvent {
   List<Object> get props => ['LoadPostsEvent'];
 }
 
-class OpenPostEvent extends PostViewerEvent {
-  const OpenPostEvent();
+class TapOnPostFromListEvent extends PostViewerEvent {
+  const TapOnPostFromListEvent({required this.postId});
+
+  final int postId;
 
   @override
-  List<Object> get props => ['OpenPostEvent'];
+  List<Object> get props => ['TapOnPostFromListEvent', postId];
+}
+
+class TapOnBackButtonFromPostPageEvent extends PostViewerEvent {
+  const TapOnBackButtonFromPostPageEvent();
+
+  @override
+  List<Object> get props => ['TapOnBackButtonFromPostPageEvent'];
 }
