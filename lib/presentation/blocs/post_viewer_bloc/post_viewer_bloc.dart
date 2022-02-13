@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:page_viewer/domain/entities/post_entity.dart';
+import 'package:page_viewer/internal/locator.dart';
+import 'package:page_viewer/internal/navigation/navigation.dart';
 import 'package:page_viewer/presentation/utils/mixins/bloc_stream_mixin.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -20,12 +22,17 @@ class PostViewerBloc with BlocStreamMixin {
   Function(PostViewerState) get _addPostState => sinkAdd(_postStateController);
 
   void _handleEvent(PostViewerEvent event) {
-    if (event is LoadPostsEvent) {
+    if (event is TapOnLoadPostsEvent) {
+      // TODO: implement
+    } else if (event is TapOnTryAgainEvent) {
       // TODO: implement
     } else if (event is TapOnPostFromListEvent) {
-      // TODO: implement
+      locator<NavigationService>().navigateTo(
+        postRoute,
+        arguments: <String, dynamic>{'post_id': event.postId},
+      );
     } else if (event is TapOnBackButtonFromPostPageEvent) {
-      // TODO: implement
+      locator<NavigationService>().navigateTo(homeRoute);
     }
   }
 
