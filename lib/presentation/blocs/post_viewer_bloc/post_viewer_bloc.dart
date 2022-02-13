@@ -34,7 +34,7 @@ class PostViewerBloc with BlocStreamMixin {
     } else if (event is TapOnPostFromListEvent) {
       await _fetchCommentsAndRouteToPostPage(postEntity: event.postEntity);
     } else if (event is TapOnBackButtonFromPostPageEvent) {
-      locator<NavigationService>().navigateTo(homeRoute);
+      locator<NavigationService>().navigateToPrevious();
     }
   }
 
@@ -46,7 +46,7 @@ class PostViewerBloc with BlocStreamMixin {
   Future<void> _fetchCommentsAndRouteToPostPage({required PostEntity postEntity}) async {
     final List<CommentEntity> commentList =
         await FetchCommentsByPostId(remoteRepository: locator<IRemoteRepository>()).execute(params: postEntity.id);
-    locator<NavigationService>().navigateTo(
+    await locator<NavigationService>().navigateTo(
       postRoute,
       arguments: <String, dynamic>{
         postRoutePostEntityArgument: postEntity,

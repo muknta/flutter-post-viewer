@@ -20,7 +20,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       {
         final postDetails = settings.arguments as Map<String, dynamic>;
         final PostEntity post = postDetails[postRoutePostEntityArgument];
-        final List<CommentEntity> commentList = postDetails[postRoutePostEntityArgument];
+        final List<CommentEntity> commentList = postDetails[postRouteCommentEntityListArgument];
         return _getPageRoute(
           routeName: settings.name!,
           viewToShow: PostPage(post: post, commentList: commentList),

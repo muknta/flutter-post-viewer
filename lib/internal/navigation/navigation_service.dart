@@ -13,4 +13,10 @@ class NavigationService {
         routeName,
         arguments: arguments,
       );
+
+  void navigateToPrevious() {
+    if (navigatorKey.currentState!.canPop()) {
+      navigatorKey.currentState!.pop();
+    }
+  }
 }
