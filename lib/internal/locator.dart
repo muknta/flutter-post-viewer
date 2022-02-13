@@ -1,8 +1,10 @@
 import 'package:get_it/get_it.dart';
-import 'package:page_viewer/internal/navigation/navigation.dart';
+import 'package:injectable/injectable.dart';
+import 'package:page_viewer/internal/locator.config.dart';
 
-GetIt locator = GetIt.instance;
+final locator = GetIt.instance;
 
+@injectableInit
 void setupLocators() {
-  locator.registerLazySingleton(() => NavigationService());
+  $initGetIt(locator);
 }

@@ -7,4 +7,10 @@ final Logger _logger = Logger(
   ),
 );
 
-void Function(String) get logInDebug => _logger.d;
+void Function(String message) get logInDebug => _logger.d;
+
+void Function(
+  String message, [
+  dynamic error,
+  StackTrace? stackTrace,
+]) get logError => _logger.e;

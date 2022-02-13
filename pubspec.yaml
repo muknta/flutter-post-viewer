@@ -1,5 +1,5 @@
 name: page_viewer
-description: App can fetch posts and display each one on separate page.
+description: App can fetch posts and display each one on separate page with comments.
 
 publish_to: 'none'
 
@@ -20,17 +20,27 @@ dependencies:
   # DB
   sembast: ^3.1.2
   # REST API
-  http: ^0.13.4
+  dio: ^4.0.4
   retrofit: ^3.0.1+1
+  # customizing
+  logger: ^1.1.0
+  # min-code helpers
+  equatable: ^2.0.3
+  json_annotation: ^4.4.0
   # UI
   cupertino_icons: ^1.0.2
-  logger: ^1.1.0
+  # logic
+  rxdart: ^0.27.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  build_runner: ^2.1.7
   flutter_lints: ^1.0.0
+  injectable_generator: ^1.5.3
+  json_serializable: ^6.1.4
+  retrofit_generator: ^4.0.1
 
 flutter:
   uses-material-design: true

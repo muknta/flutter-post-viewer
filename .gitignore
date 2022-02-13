@@ -30,6 +30,15 @@
 .pub-cache/
 .pub/
 /build/
+*.g.dart
+*.config.dart
+*.lock
+
+# Java related
+.classpath
+.project
+.settings/
+android/app/local.properties
 
 # Web related
 lib/generated_plugin_registrant.dart
