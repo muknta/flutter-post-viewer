@@ -20,31 +20,31 @@ class RemoteDataSource implements IRemoteDataSource {
   late RestClient _restClient;
 
   @override
-  Future<List<PostModel>> getAllPosts() async {
+  Future<List<PostModel>> fetchAllPosts() async {
     try {
-      return _restClient.getAllPosts();
+      return _restClient.fetchAllPosts();
     } on DioError catch (error, stackTrace) {
-      logError('getAllPosts', error, stackTrace);
+      logError('fetchAllPosts', error, stackTrace);
     }
     return <PostModel>[];
   }
 
   @override
-  Future<PostModel?> getPostById({required int id}) async {
+  Future<PostModel?> fetchPostById({required int id}) async {
     try {
-      return _restClient.getPostById(id: id);
+      return _restClient.fetchPostById(id: id);
     } on DioError catch (error, stackTrace) {
-      logError('getPostById', error, stackTrace);
+      logError('fetchPostById', error, stackTrace);
     }
     return Future.value();
   }
 
   @override
-  Future<List<CommentModel>> getCommentsByPostId({required int postId}) async {
+  Future<List<CommentModel>> fetchCommentsByPostId({required int postId}) async {
     try {
-      return _restClient.getCommentsByPostId(postId: postId);
+      return _restClient.fetchCommentsByPostId(postId: postId);
     } on DioError catch (error, stackTrace) {
-      logError('getCommentsByPostId', error, stackTrace);
+      logError('fetchCommentsByPostId', error, stackTrace);
     }
     return <CommentModel>[];
   }

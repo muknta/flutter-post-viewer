@@ -7,6 +7,13 @@ abstract class PostViewerEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class InitPostsEvent extends PostViewerEvent {
+  const InitPostsEvent();
+
+  @override
+  List<Object> get props => ['InitPostsEvent'];
+}
+
 class TapOnLoadPostsButtonEvent extends PostViewerEvent {
   const TapOnLoadPostsButtonEvent();
 

@@ -12,11 +12,11 @@ abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
   @GET(postsApiRoute)
-  Future<List<PostModel>> getAllPosts();
+  Future<List<PostModel>> fetchAllPosts();
 
   @GET('$postsApiRoute/{id}')
-  Future<PostModel> getPostById({@Path('id') required int id});
+  Future<PostModel> fetchPostById({@Path('id') required int id});
 
   @GET('${baseApiRoute}comments/{post_id}')
-  Future<List<CommentModel>> getCommentsByPostId({@Path('post_id') required int postId});
+  Future<List<CommentModel>> fetchCommentsByPostId({@Path('post_id') required int postId});
 }

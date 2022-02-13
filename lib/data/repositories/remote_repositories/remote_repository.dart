@@ -15,8 +15,8 @@ class RemoteRepository extends IRemoteRepository {
   final IRemoteDataSource _remoteDataSource;
 
   @override
-  Future<List<PostEntity>> getAllPosts() async {
-    final List<PostModel> postModelList = await _remoteDataSource.getAllPosts();
+  Future<List<PostEntity>> fetchAllPosts() async {
+    final List<PostModel> postModelList = await _remoteDataSource.fetchAllPosts();
     final postEntityList = <PostEntity>[];
     for (final PostModel postModel in postModelList) {
       postEntityList.add(PostEntity.fromPostModel(postModel: postModel));
@@ -25,8 +25,8 @@ class RemoteRepository extends IRemoteRepository {
   }
 
   @override
-  Future<PostEntity?> getPostById({required int id}) async {
-    final PostModel? postModel = await _remoteDataSource.getPostById(id: id);
+  Future<PostEntity?> fetchPostById({required int id}) async {
+    final PostModel? postModel = await _remoteDataSource.fetchPostById(id: id);
     if (postModel != null) {
       return PostEntity.fromPostModel(postModel: postModel);
     }
@@ -34,8 +34,8 @@ class RemoteRepository extends IRemoteRepository {
   }
 
   @override
-  Future<List<CommentEntity>> getCommentsByPostId({required int postId}) async {
-    final List<CommentModel> commentModelList = await _remoteDataSource.getCommentsByPostId(postId: postId);
+  Future<List<CommentEntity>> fetchCommentsByPostId({required int postId}) async {
+    final List<CommentModel> commentModelList = await _remoteDataSource.fetchCommentsByPostId(postId: postId);
     final commentEntityList = <CommentEntity>[];
     for (final CommentModel commentModel in commentModelList) {
       commentEntityList.add(CommentEntity.fromCommentModel(commentModel: commentModel));
