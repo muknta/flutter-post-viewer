@@ -5,10 +5,10 @@ class MainDarkTheme implements IMainTheme {
   const MainDarkTheme();
 
   @override
-  Color get backgroundColor => Colors.grey;
+  Color get backgroundColor => Colors.black;
 
   @override
-  Color get appBarBackgroundColor => Colors.black;
+  Color get appBarBackgroundColor => Colors.blueGrey;
   @override
   Color get appBarTextColor => Colors.white;
 

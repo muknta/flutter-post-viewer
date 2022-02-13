@@ -5,18 +5,11 @@ class PostListDarkTheme implements IPostListTheme {
   const PostListDarkTheme();
 
   @override
-  Color get itemBackgroundColor => Colors.white;
+  Color get itemBackgroundColor => Colors.blueGrey;
 
   @override
-  Color get itemTextColor => Colors.black;
+  Color get itemTextColor => Colors.white;
 
   @override
-  Color get itemShadowColor => Colors.grey;
-  @override
-  double get itemShadowBlurRadius => 3.0;
-  @override
-  double get itemShadowSpreadRadius => 3.0;
-
-  @override
-  double get itemBorderRadius => 5.0;
+  Color get itemShadowColor => Colors.white;
 }

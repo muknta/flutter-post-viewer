@@ -40,12 +40,13 @@ class _PostListItemState extends State<PostListItem> {
             padding: const EdgeInsets.all(10.0),
             decoration: BoxDecoration(
               color: _postListTheme.itemBackgroundColor,
-              borderRadius: BorderRadius.circular(_postListTheme.itemBorderRadius),
+              borderRadius: BorderRadius.circular(5.0),
               boxShadow: [
                 BoxShadow(
                   color: _postListTheme.itemShadowColor,
-                  blurRadius: _postListTheme.itemShadowBlurRadius,
-                  spreadRadius: _postListTheme.itemShadowSpreadRadius,
+                  blurRadius: 0.0,
+                  spreadRadius: 1.0,
+                  offset: const Offset(2.0, 2.0),
                 )
               ],
             ),

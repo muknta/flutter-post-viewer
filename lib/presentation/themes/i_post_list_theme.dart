@@ -8,8 +8,4 @@ abstract class IPostListTheme {
   Color get itemTextColor;
 
   Color get itemShadowColor;
-  double get itemShadowBlurRadius;
-  double get itemShadowSpreadRadius;
-
-  double get itemBorderRadius;
 }
