@@ -17,6 +17,6 @@ abstract class RestClient {
   @GET('$postsApiRoute/{id}')
   Future<PostModel> fetchPostById({@Path('id') required int id});
 
-  @GET('${baseApiRoute}comments/{post_id}')
+  @GET('$postsApiRoute/{post_id}/comments')
   Future<List<CommentModel>> fetchCommentsByPostId({@Path('post_id') required int postId});
 }
