@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:page_viewer/domain/entities/post_entity.dart';
+import 'package:page_viewer/presentation/pages/home_page/home_page.dart';
+import 'package:page_viewer/presentation/pages/post_page/post_page.dart';
 
 const String homeRoute = '/';
 const String postRoute = '/post';
+const String postRoutePostEntityArgument = 'post_entity';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case homeRoute:
       return _getPageRoute(
         routeName: settings.name!,
-        viewToShow: const SizedBox.shrink(), //HomePage(),
+        viewToShow: const HomePage(),
       );
     case postRoute:
       {
-        final postDetails = settings.arguments as Map<String, dynamic>?;
+        final postDetails = settings.arguments as Map<String, dynamic>;
+        final PostEntity postEntity = postDetails[postRoutePostEntityArgument];
         return _getPageRoute(
           routeName: settings.name!,
-          viewToShow: const SizedBox.shrink(), //PostPage(details: postDetails),
+          viewToShow: PostPage(postEntity: postEntity),
         );
       }
     default:

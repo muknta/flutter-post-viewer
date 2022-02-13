@@ -7,27 +7,27 @@ abstract class PostViewerEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class TapOnLoadPostsEvent extends PostViewerEvent {
-  const TapOnLoadPostsEvent();
+class TapOnLoadPostsButtonEvent extends PostViewerEvent {
+  const TapOnLoadPostsButtonEvent();
 
   @override
-  List<Object> get props => ['TapOnLoadPostsEvent'];
+  List<Object> get props => ['TapOnLoadPostsButtonEvent'];
 }
 
-class TapOnTryAgainEvent extends PostViewerEvent {
-  const TapOnTryAgainEvent();
+class TapOnTryAgainButtonEvent extends PostViewerEvent {
+  const TapOnTryAgainButtonEvent();
 
   @override
-  List<Object> get props => ['TapOnTryAgainEvent'];
+  List<Object> get props => ['TapOnTryAgainButtonEvent'];
 }
 
 class TapOnPostFromListEvent extends PostViewerEvent {
-  const TapOnPostFromListEvent({required this.postId});
+  const TapOnPostFromListEvent({required this.postEntity});
 
-  final int postId;
+  final PostEntity postEntity;
 
   @override
-  List<Object> get props => ['TapOnPostFromListEvent', postId];
+  List<Object> get props => ['TapOnPostFromListEvent', postEntity];
 }
 
 class TapOnBackButtonFromPostPageEvent extends PostViewerEvent {

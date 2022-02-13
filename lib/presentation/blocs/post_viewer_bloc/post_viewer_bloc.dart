@@ -22,14 +22,14 @@ class PostViewerBloc with BlocStreamMixin {
   Function(PostViewerState) get _addPostState => sinkAdd(_postStateController);
 
   void _handleEvent(PostViewerEvent event) {
-    if (event is TapOnLoadPostsEvent) {
+    if (event is TapOnLoadPostsButtonEvent) {
       // TODO: implement
-    } else if (event is TapOnTryAgainEvent) {
+    } else if (event is TapOnTryAgainButtonEvent) {
       // TODO: implement
     } else if (event is TapOnPostFromListEvent) {
       locator<NavigationService>().navigateTo(
         postRoute,
-        arguments: <String, dynamic>{'post_id': event.postId},
+        arguments: <String, dynamic>{postRoutePostEntityArgument: event.postEntity},
       );
     } else if (event is TapOnBackButtonFromPostPageEvent) {
       locator<NavigationService>().navigateTo(homeRoute);

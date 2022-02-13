@@ -36,11 +36,11 @@ class _HomePageState extends State<HomePage> {
             final PostViewerState postState = snapshot.data!;
             if (postState is PostsNotFoundState) {
               return LoadPostsButton(
-                onPressed: () => _postBloc.addEvent(const TapOnLoadPostsEvent()),
+                onPressed: () => _postBloc.addEvent(const TapOnLoadPostsButtonEvent()),
               );
             } else if (postState is ErrorWhileLoadingPostsState) {
               return TryAgainButton(
-                onPressed: () => _postBloc.addEvent(const TapOnLoadPostsEvent()),
+                onPressed: () => _postBloc.addEvent(const TapOnTryAgainButtonEvent()),
               );
             } else if (postState is LoadedPostsState) {
               return PostListWidget(postList: postState.posts);
