@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:page_viewer/domain/entities/comment_entity.dart';
 import 'package:page_viewer/domain/entities/post_entity.dart';
 import 'package:page_viewer/internal/locator.dart';
 import 'package:page_viewer/internal/navigation/navigation.dart';
@@ -27,9 +28,14 @@ class PostViewerBloc with BlocStreamMixin {
     } else if (event is TapOnTryAgainButtonEvent) {
       // TODO: implement
     } else if (event is TapOnPostFromListEvent) {
+      // TODO: make UseCase which fetches comments by postId
+      final List<CommentEntity> commentList = [];
       locator<NavigationService>().navigateTo(
         postRoute,
-        arguments: <String, dynamic>{postRoutePostEntityArgument: event.postEntity},
+        arguments: <String, dynamic>{
+          postRoutePostEntityArgument: event.postEntity,
+          postRouteCommentEntityListArgument: commentList,
+        },
       );
     } else if (event is TapOnBackButtonFromPostPageEvent) {
       locator<NavigationService>().navigateTo(homeRoute);

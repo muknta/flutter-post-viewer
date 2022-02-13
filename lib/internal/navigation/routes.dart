@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:page_viewer/domain/entities/comment_entity.dart';
 import 'package:page_viewer/domain/entities/post_entity.dart';
 import 'package:page_viewer/presentation/pages/home_page/home_page.dart';
 import 'package:page_viewer/presentation/pages/post_page/post_page.dart';
@@ -6,6 +7,7 @@ import 'package:page_viewer/presentation/pages/post_page/post_page.dart';
 const String homeRoute = '/';
 const String postRoute = '/post';
 const String postRoutePostEntityArgument = 'post_entity';
+const String postRouteCommentEntityListArgument = 'comment_entity_list';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -17,10 +19,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case postRoute:
       {
         final postDetails = settings.arguments as Map<String, dynamic>;
-        final PostEntity postEntity = postDetails[postRoutePostEntityArgument];
+        final PostEntity post = postDetails[postRoutePostEntityArgument];
+        final List<CommentEntity> commentList = postDetails[postRoutePostEntityArgument];
         return _getPageRoute(
           routeName: settings.name!,
-          viewToShow: PostPage(postEntity: postEntity),
+          viewToShow: PostPage(post: post, commentList: commentList),
         );
       }
     default:

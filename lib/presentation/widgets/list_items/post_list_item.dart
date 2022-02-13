@@ -32,7 +32,7 @@ class _PostListItemState extends State<PostListItem> {
   @override
   Widget build(BuildContext context) => GestureDetector(
         onTap: () => _postBloc.addEvent(
-          TapOnPostFromListEvent(postId: widget._postEntity.id),
+          TapOnPostFromListEvent(postEntity: widget._postEntity),
         ),
         child: Container(
           decoration: BoxDecoration(
