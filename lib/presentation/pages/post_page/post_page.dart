@@ -1,16 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:page_viewer/domain/entities/post_entity.dart';
+import 'package:page_viewer/presentation/blocs/post_viewer_bloc/post_viewer_bloc.dart';
+import 'package:page_viewer/presentation/utils/extensions/bloc_context_finder_extension.dart';
+import 'package:page_viewer/presentation/widgets/main_scaffold.dart';
 
 class PostPage extends StatefulWidget {
-  const PostPage({Key? key}) : super(key: key);
+  PostPage({Key? key, required PostEntity postEntity})
+      : _postEntity = postEntity,
+        _title = 'Post ${postEntity.id}',
+        super(key: key);
+
+  final PostEntity _postEntity;
+  final String _title;
 
   @override
   State<PostPage> createState() => _PostPageState();
 }
 
 class _PostPageState extends State<PostPage> {
+  late final PostViewerBloc _postBloc;
+
   @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+  void initState() {
+    super.initState();
+    _postBloc = context.readBloc<PostViewerBloc>();
   }
+
+  @override
+  Widget build(BuildContext context) => MainScaffold(
+        onTapBackButton: _postBloc.addEvent(
+            // TODO: back button pressed
+            ),
+        title: widget._title,
+        // TODO: implement body
+        body: const SizedBox.shrink(),
+      );
 }
