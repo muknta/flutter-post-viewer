@@ -7,7 +7,7 @@ import 'package:page_viewer/domain/entities/comment_entity.dart';
 import 'package:page_viewer/domain/entities/post_entity.dart';
 
 @LazySingleton(as: IRemoteRepository)
-class RemoteRepository extends IRemoteRepository {
+class RemoteRepository implements IRemoteRepository {
   RemoteRepository({
     required IRemoteDataSource remoteDataSource,
   }) : _remoteDataSource = remoteDataSource;

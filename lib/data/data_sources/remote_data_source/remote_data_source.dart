@@ -17,7 +17,7 @@ class RemoteDataSource implements IRemoteDataSource {
     _restClient = RestClient(dio);
   }
 
-  late RestClient _restClient;
+  late final RestClient _restClient;
 
   @override
   Future<List<PostModel>> fetchAllPosts() async {
