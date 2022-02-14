@@ -40,35 +40,37 @@ class _PostPageState extends State<PostPage> {
         onBackButtonTap: () => _postBloc.addEvent(const TapOnBackButtonFromPostPageEvent()),
         title: widget._title,
         // TODO: implement body
-        body: Padding(
-          padding: const EdgeInsets.all(35.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              TextWidget(
-                'User ${widget._post.userId}',
-                fontSize: 18,
-                color: _theme.textColor,
-                textAlign: TextAlign.right,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _HeadlineTextWidget('Title', theme: _theme),
-                  _OrdinaryTextWidget(
-                    widget._post.title,
-                    theme: _theme,
-                    maxLines: 5,
-                  ),
-                  _HeadlineTextWidget('Body', theme: _theme),
-                  _OrdinaryTextWidget(
-                    widget._post.body,
-                    theme: _theme,
-                    maxLines: 10000,
-                  ),
-                ],
-              ),
-            ],
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(35.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                TextWidget(
+                  'User ${widget._post.userId}',
+                  fontSize: 18,
+                  color: _theme.textColor,
+                  textAlign: TextAlign.right,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _HeadlineTextWidget('Title', theme: _theme),
+                    _OrdinaryTextWidget(
+                      widget._post.title,
+                      theme: _theme,
+                      maxLines: 5,
+                    ),
+                    _HeadlineTextWidget('Body', theme: _theme),
+                    _OrdinaryTextWidget(
+                      widget._post.body,
+                      theme: _theme,
+                      maxLines: 10000,
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       );

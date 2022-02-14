@@ -21,17 +21,6 @@ class Application extends StatefulWidget {
 
 class _ApplicationState extends State<Application> {
   @override
-  void initState() {
-    super.initState();
-    if (!isTablet()) {
-      SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
-    }
-  }
-
-  @override
   Widget build(BuildContext context) => MultiProvider(
         providers: [
           Provider<PostViewerBloc>(
@@ -63,12 +52,4 @@ class _ApplicationState extends State<Application> {
           },
         ),
       );
-
-  bool isTablet() {
-    final Size size = window.physicalSize;
-    final double ratio = window.devicePixelRatio;
-    final double width = min(size.width / ratio, size.height / ratio);
-    logInDebug(width.toString());
-    return width > 600;
-  }
 }
