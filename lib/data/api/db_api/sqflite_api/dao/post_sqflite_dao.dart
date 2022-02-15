@@ -1,5 +1,5 @@
 import 'package:injectable/injectable.dart';
-import 'package:page_viewer/data/api/db_api/sembast_api/schemas/post_sembast_schema.dart';
+import 'package:page_viewer/data/api/db_api/sqflite_api/schemas/post_sqflite_schema.dart';
 import 'package:page_viewer/data/api/db_api/sqflite_api/sqflite_database.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -7,23 +7,42 @@ import 'package:sqflite/sqflite.dart';
 class PostSqfliteDao {
   Future<Database> get _db => SqfliteDatabase.instance.database;
 
-  Future<List<int>> insertAll({required List<Map<String, dynamic>> posts}) async =>
-      _postsFolder.addAll(await _db, posts);
-
-  Future<int> insert({required Map<String, dynamic> post}) async => _postsFolder.add(await _db, post);
-
-  Future<int> delete({required int levelId}) async {
-    final Finder levelFinder = Finder(filter: Filter.equals(PostSembastSchema.id, levelId));
-    return _postsFolder.delete(await _db, finder: levelFinder);
+  Future<List<int>> insertAll({required List<Map<String, dynamic>> posts}) async {
+    final listOfReturnedValues = <int>[];
+    for (final Map<String, dynamic> post in posts) {
+      listOfReturnedValues.add(await insert(post: post));
+    }
+    return listOfReturnedValues;
   }
 
-  Future<List<Map<String, dynamic>>> getAllPosts() async {
-    final records = await _postsFolder.find(await _db);
-    return records.map((recordSnapshot) => recordSnapshot.value).toList();
+  Future<int> insert({required Map<String, dynamic> post}) async => (await _db).insert(
+        PostSqfliteSchema.tableName,
+        post,
+      );
+
+  Future<int> deleteById({required int id}) async => (await _db).delete(
+        PostSqfliteSchema.tableName,
+        where: '${PostSqfliteSchema.id} = ?',
+
+        /// To prevent SQL injection
+        whereArgs: [id],
+      );
+
+  Future<int> deleteAll() async => (await _db).delete(PostSqfliteSchema.tableName);
+
+  Future<Map<String, dynamic>?> getPostById({required int id}) async {
+    final List<Map<String, dynamic>?> queryList = await (await _db).query(
+      PostSqfliteSchema.tableName,
+      where: '${PostSqfliteSchema.id} = ?',
+
+      /// To prevent SQL injection
+      whereArgs: [id],
+      limit: 1,
+    );
+    return queryList.first;
   }
 
-  Future<Map<String, dynamic>> getPostById({required int id}) async {
-    final records = await _postsFolder.find(await _db);
-    return records.map((recordSnapshot) => recordSnapshot.value).toList();
-  }
+  Future<List<Map<String, dynamic>>> getAllPosts() async => (await _db).query(
+        PostSqfliteSchema.tableName,
+      );
 }

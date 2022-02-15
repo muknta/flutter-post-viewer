@@ -13,23 +13,15 @@ class SqfliteDatabase {
   static final _singleton = SqfliteDatabase._();
 
   static SqfliteDatabase get instance => _singleton;
-  Completer<Database>? _dbOpenCompleter;
   String? _fullDBPath;
 
-  Future<Database> get database async {
-    if (_dbOpenCompleter == null) {
-      _dbOpenCompleter = Completer();
-      await _openDatabase();
-    }
-    return _dbOpenCompleter!.future;
-  }
+  Database? _database;
+  Future<Database> get database async => _database ??= await _openDatabase();
 
-  Future<void> _openDatabase() async {
-    _fullDBPath ??= await _getDBPath();
-    final database = await openDatabase(
-      _fullDBPath!,
-      onCreate: (db, version) => db.execute(
-        '''
+  Future<Database> _openDatabase() async => await openDatabase(
+        _fullDBPath ??= await _getDBPath(),
+        onCreate: (db, version) => db.execute(
+          '''
         CREATE TABLE ${PostSqfliteSchema.tableName}(
           ${PostSqfliteSchema.id} INTEGER PRIMARY KEY,
           ${PostSqfliteSchema.userId} INTEGER,
@@ -45,15 +37,12 @@ class SqfliteDatabase {
           FOREIGN KEY(${CommentSqfliteSchema.postId}) REFERENCES posts(${PostSqfliteSchema.id})
         );
         ''',
-      ),
-      version: 1,
-    );
-    return _dbOpenCompleter!.complete(database);
-  }
+        ),
+        version: 1,
+      );
 
   Future<void> _deleteDatabase() async {
-    _fullDBPath ??= await _getDBPath();
-    await deleteDatabase(_fullDBPath!);
+    await deleteDatabase(_fullDBPath ??= await _getDBPath());
   }
 
   Future<String> _getDBPath() async {

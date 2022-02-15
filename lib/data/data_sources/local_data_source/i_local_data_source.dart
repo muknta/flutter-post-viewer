@@ -8,7 +8,7 @@ abstract class ILocalDataSource {
 
   Future<List<PostTableModel>> getAllPosts();
 
-  Future<PostTableModel> getPostById({required int id});
+  Future<PostTableModel?> getPostById({required int id});
 
   Future<List<CommentTableModel>> getCommentsByPostId({required int postId});
 }

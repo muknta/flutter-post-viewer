@@ -35,9 +35,9 @@ class LocalDataSource implements ILocalDataSource {
   }
 
   @override
-  Future<PostTableModel> getPostById({required int id}) async {
-    final postInJson = await _postSqfliteDao.getPostById(id: id);
-    return PostTableModel.fromJson(postInJson);
+  Future<PostTableModel?> getPostById({required int id}) async {
+    final Map<String, dynamic>? postInJson = await _postSqfliteDao.getPostById(id: id);
+    return postInJson != null ? PostTableModel.fromJson(postInJson) : null;
   }
 
   @override
