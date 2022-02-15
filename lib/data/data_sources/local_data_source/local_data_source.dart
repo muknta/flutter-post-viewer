@@ -18,12 +18,15 @@ class LocalDataSource implements ILocalDataSource {
 
   @override
   // TODO: return type
-  Future<void> insertPosts({required List<PostTableModel> posts}) =>_postSqfliteDao.insertAll(posts: posts.map((post) => post.toJson()).toList();
+  Future<void> insertPosts({required List<PostTableModel> posts}) => _postSqfliteDao.insertAll(
+        posts: posts.map((post) => post.toJson()).toList(),
+      );
 
   @override
   // TODO: return type
-  Future<void> insertComments({required List<CommentTableModel> comments}) =>
-      _commentSqfliteDao.insertAll(comments: comments.map((comment) => comment.toJson()).toList());
+  Future<void> insertComments({required List<CommentTableModel> comments}) => _commentSqfliteDao.insertAll(
+        comments: comments.map((comment) => comment.toJson()).toList(),
+      );
 
   @override
   Future<List<PostTableModel>> getAllPosts() async {
