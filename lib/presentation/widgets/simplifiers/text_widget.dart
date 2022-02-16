@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:page_viewer/presentation/utils/extensions/capitalize_string_extension.dart';
 
@@ -29,7 +30,7 @@ class TextWidget extends StatelessWidget {
   final int? _maxLines;
 
   @override
-  Widget build(BuildContext context) => Text(
+  Widget build(BuildContext context) => AutoSizeText(
         _isCapitalized ? _text.capitalize() : _text,
         textAlign: _textAlign,
         overflow: TextOverflow.ellipsis,
