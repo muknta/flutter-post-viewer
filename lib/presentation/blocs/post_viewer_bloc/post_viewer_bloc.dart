@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:page_viewer/domain/entities/comment_entity.dart';
 import 'package:page_viewer/domain/entities/post_entity.dart';
 import 'package:page_viewer/domain/repositories/local_repositories/i_local_repository.dart';
@@ -7,7 +6,9 @@ import 'package:page_viewer/domain/repositories/remote_repositories/i_remote_rep
 import 'package:page_viewer/domain/use_cases/local_use_cases/delete_and_insert_posts.dart';
 import 'package:page_viewer/domain/use_cases/local_use_cases/get_all_posts.dart';
 import 'package:page_viewer/domain/use_cases/local_use_cases/get_comments_by_post_id.dart';
+import 'package:page_viewer/domain/use_cases/local_use_cases/insert_comments.dart';
 import 'package:page_viewer/domain/use_cases/remote_use_cases/fetch_all_posts.dart';
+import 'package:page_viewer/domain/use_cases/remote_use_cases/fetch_comments_by_post_id.dart';
 import 'package:page_viewer/internal/locator.dart';
 import 'package:page_viewer/internal/navigation/navigation.dart';
 import 'package:page_viewer/presentation/managers/download_manager/download_manager.dart';
@@ -22,7 +23,9 @@ part 'post_viewer_state.dart';
 class PostViewerBloc with BlocStreamMixin {
   PostViewerBloc() {
     _eventController.listen(_handleEvent);
-    _downloadStateController.listen(_handleDownloadState);
+
+    /// For isolates
+    // _downloadStateController.listen(_handleDownloadState);
   }
 
   final _eventController = BehaviorSubject<PostViewerEvent>.seeded(const InitPostsEvent());
@@ -49,26 +52,36 @@ class PostViewerBloc with BlocStreamMixin {
     }
   }
 
-  Future<void> _handleDownloadState(IDownloadState state) async {
-    if (state is DownloadDoneState && _fetchingCommentsAlert != null) {
-      _fetchingCommentsAlert = _fetchingCommentsAlert!.copyWithIncrementedFetchedNumber();
-      _addPostState(_fetchingCommentsAlert!);
-      debugPrint('${_fetchingCommentsAlert!._fetchedNumber}/${_fetchingCommentsAlert!._overallNumber}');
-    } else if (state is DownloadingState) {
-      _addPostState(const FetchingPostsStepAlertState());
-      debugPrint('DownloadingState');
-    } else if (state is DownloadErrorState) {
-      debugPrint('DownloadErrorState');
-    }
-  }
+  /// For isolates
+  // Future<void> _handleDownloadState(IDownloadState state) async {
+  //   if (state is DownloadDoneState && _fetchingCommentsAlert != null) {
+  //     _fetchingCommentsAlert = _fetchingCommentsAlert!.copyWithIncrementedFetchedNumber();
+  //     _addPostState(_fetchingCommentsAlert!);
+  //     debugPrint('${_fetchingCommentsAlert!._fetchedNumber}/${_fetchingCommentsAlert!._overallNumber}');
+  //   } else if (state is DownloadingState) {
+  //     _addPostState(const FetchingPostsStepAlertState());
+  //     debugPrint('DownloadingState');
+  //   } else if (state is DownloadErrorState) {
+  //     debugPrint('DownloadErrorState');
+  //   }
+  // }
 
   Future<void> _getPostsAndUpdateState() async {
     List<PostEntity> posts = await GetAllPosts(localRepository: locator<ILocalRepository>()).execute();
     if (posts.isEmpty) {
       posts = await _initDBInfo();
-    } else {
-      _addPostState(LoadedPostsState(posts: posts));
     }
+
+    /// ---------- With Isolates
+    //  else {
+    //   _addPostState(LoadedPostsState(posts: posts));
+    // }
+    /// ---------- With Isolates
+
+    /// ---------- Without Isolates
+    _addPostState(LoadedPostsState(posts: posts));
+    //
+    /// ---------- Without Isolates
   }
 
   /// Generally DB feature is just a representation of knowledge and opportunities.
@@ -82,7 +95,28 @@ class PostViewerBloc with BlocStreamMixin {
     _fetchingCommentsAlert = FetchingCommentsStepAlertState(overallNumber: posts.length);
     _addPostState(_fetchingCommentsAlert!);
     final List<int> postIdList = posts.map((post) => post.id).toList();
-    DownloadManager(sendState: _addDownloadState).download(postIdList: postIdList);
+
+    /// ---------- Without Isolates
+    final comments = <CommentEntity>[];
+    for (final int postId in postIdList) {
+      comments
+          .addAll(await FetchCommentsByPostId(remoteRepository: locator<IRemoteRepository>()).execute(params: postId));
+      _fetchingCommentsAlert = _fetchingCommentsAlert!.copyWithIncrementedFetchedNumber();
+      _addPostState(_fetchingCommentsAlert!);
+    }
+    _addPostState(const InsertingCommentsStepAlertState());
+    await InsertComments(localRepository: locator<ILocalRepository>()).execute(params: comments);
+    //
+    /// ---------- Without Isolates
+
+    /// ---------- With Isolates
+    /// Isolate can not write comments into local SQL memory
+    /// even if gave to him full DB path.
+    ///
+    /// And isolates crashes app with big number of comments, if we pushes all at the same time.
+    // DownloadManager(sendState: _addDownloadState).download(postIdList: postIdList);
+    /// ---------- With Isolates
+
     return posts;
   }
 

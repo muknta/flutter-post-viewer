@@ -29,8 +29,8 @@ abstract class ITaskManager {
           onComplete: (id) {
             observer.complete(id);
           }));
-      // TODO: For a test
-      if (postId == 3) break;
+      // TODO: For a test. In other way it may crashes
+      // if (postId == 3) break;
     }
   }
 

@@ -35,6 +35,10 @@ class FetchingCommentsStepAlertState extends LoadingStepAlertState {
   final int _fetchedNumber;
 }
 
+class InsertingCommentsStepAlertState extends LoadingStepAlertState {
+  const InsertingCommentsStepAlertState() : super(message: 'Inserting comments...');
+}
+
 class DeletingAndInsertingInfoStepAlertState extends LoadingStepAlertState {
   const DeletingAndInsertingInfoStepAlertState() : super(message: 'Inserting posts...');
 }
