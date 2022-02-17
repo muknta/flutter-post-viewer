@@ -11,9 +11,7 @@ class InsertComments implements IUseCase<bool, List<CommentEntity>> {
 
   @override
   Future<bool> execute({required List<CommentEntity> params}) async {
-    print('before INSERTING');
     final List<bool> resultList = await _localRepository.insertComments(comments: params);
-    print('after INSERTING');
     return resultList.every((expectedPositiveValue) => expectedPositiveValue);
   }
 }

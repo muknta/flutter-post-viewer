@@ -53,7 +53,7 @@ class PostViewerBloc with BlocStreamMixin {
     if (state is DownloadDoneState && _fetchingCommentsAlert != null) {
       _fetchingCommentsAlert = _fetchingCommentsAlert!.copyWithIncrementedFetchedNumber();
       _addPostState(_fetchingCommentsAlert!);
-      print('${_fetchingCommentsAlert!._fetchedNumber}/${_fetchingCommentsAlert!._overallNumber}');
+      debugPrint('${_fetchingCommentsAlert!._fetchedNumber}/${_fetchingCommentsAlert!._overallNumber}');
     } else if (state is DownloadingState) {
       _addPostState(const FetchingPostsStepAlertState());
       debugPrint('DownloadingState');

@@ -15,11 +15,9 @@ abstract class ISingleTaskDownloader<Q extends ILoadingQueryModel> {
 
   /// Починає завантаження
   Future<void> startLoading() async {
-    print('startLoading single task');
     if (!_loading) {
       _loading = true;
 
-      print('startLoading AFTER IF single task');
       await isolateManager.startLoading(
         queryModel,
         customPort: responsePort.sendPort,

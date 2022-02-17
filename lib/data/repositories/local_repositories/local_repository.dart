@@ -23,10 +23,8 @@ class LocalRepository implements ILocalRepository {
 
   @override
   Future<List<bool>> insertComments({required List<CommentEntity> comments}) async {
-    print('before LocalRepo insertComm');
     final List<CommentTableModel> commentTableModelList =
         comments.map((comment) => CommentTableModel.fromCommentEntity(commentEntity: comment)).toList();
-    print('after LocalRepo insertComm');
     return await _localDataSource.insertComments(comments: commentTableModelList);
   }
 

@@ -24,8 +24,6 @@ class LocalDataSource implements ILocalDataSource {
 
   @override
   Future<List<bool>> insertComments({required List<CommentTableModel> comments}) async {
-    print('before LocalDataSo insertComm');
-    print('path ${await getApplicationDocumentsDirectory()}');
     return _commentSqfliteDao.insertAll(
       comments: comments.map((comment) => comment.toJson()).toList(),
     );

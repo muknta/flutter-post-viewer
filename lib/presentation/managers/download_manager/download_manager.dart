@@ -27,7 +27,6 @@ class DownloadManager implements IDownloadManager {
   void download({required List<int> postIdList}) {
     taskManager.createDownloadTasks(postIdList: postIdList);
     if (taskManager.observer.tasks.isEmpty) {
-      print('isEmpty list observer');
       _sendAndSaveState(const DownloadDoneState());
       return;
     }

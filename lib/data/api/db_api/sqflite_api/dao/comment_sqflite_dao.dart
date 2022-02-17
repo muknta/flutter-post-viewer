@@ -9,14 +9,10 @@ class CommentSqfliteDao {
   Future<Database> get _db async => await SqfliteDatabase.instance.database;
 
   Future<List<bool>> insertAll({required List<Map<String, dynamic>> comments}) async {
-    print('before DAO insertComm');
     final listOfReturnedValues = <bool>[];
     for (final Map<String, dynamic> comment in comments) {
-      print('COMMENT  ---- $comment');
       listOfReturnedValues.add(await insert(comment: comment));
-      print('COMMENT  after insert $listOfReturnedValues');
     }
-    print('after DAO insertComm');
     return listOfReturnedValues;
   }
 

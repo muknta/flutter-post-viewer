@@ -14,7 +14,6 @@ class PostSqfliteDao {
     for (final Map<String, dynamic> post in posts) {
       listOfReturnedValues.add(await insert(post: post));
     }
-    print('path = ${await getApplicationDocumentsDirectory()}/sqflite.db');
     return listOfReturnedValues;
   }
 
