@@ -50,7 +50,6 @@ class LocalRepository implements ILocalRepository {
         .toList();
   }
 
-  // TODO: check comments deleting with posts
   @override
   Future<bool> deleteAllPosts() => _localDataSource.deleteAllPosts();
 }

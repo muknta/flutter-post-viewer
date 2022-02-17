@@ -33,7 +33,6 @@ class PostSqfliteDao {
       ) !=
       unsuccessfulReturnValueSqflite;
 
-  // TODO: check for returned bool
   Future<bool> deleteAll() async =>
       await (await _db).delete(PostSqfliteSchema.tableName) != unsuccessfulReturnValueSqflite;
 

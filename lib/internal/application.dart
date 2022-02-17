@@ -33,7 +33,6 @@ class _ApplicationState extends State<Application> {
           ),
         ],
         child: FutureBuilder<void>(
-          // TODO: check if it still needed
           future: locator.allReady(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {

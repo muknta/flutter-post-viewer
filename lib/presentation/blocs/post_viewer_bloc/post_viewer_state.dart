@@ -36,20 +36,13 @@ class LoadedPostsState extends PostViewerState {
   final List<PostEntity> posts;
 
   @override
-  // TODO: check with 'this'
-  List<Object> get props => ['LoadedPostsState', posts];
+  List<Object> get props => [posts];
 }
 
 class PostsNotFoundState extends PostViewerState {
   const PostsNotFoundState();
-
-  @override
-  List<Object> get props => ['PostsNotFoundState'];
 }
 
 class ErrorWhileLoadingPostsState extends PostViewerState {
   const ErrorWhileLoadingPostsState();
-
-  @override
-  List<Object> get props => ['ErrorWhileLoadingPostsState'];
 }

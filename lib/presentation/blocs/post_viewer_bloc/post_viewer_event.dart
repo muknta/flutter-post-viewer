@@ -9,23 +9,14 @@ abstract class PostViewerEvent extends Equatable {
 
 class InitPostsEvent extends PostViewerEvent {
   const InitPostsEvent();
-
-  @override
-  List<Object> get props => ['InitPostsEvent'];
 }
 
 class TapOnLoadPostsButtonEvent extends PostViewerEvent {
   const TapOnLoadPostsButtonEvent();
-
-  @override
-  List<Object> get props => ['TapOnLoadPostsButtonEvent'];
 }
 
 class TapOnTryAgainButtonEvent extends PostViewerEvent {
   const TapOnTryAgainButtonEvent();
-
-  @override
-  List<Object> get props => ['TapOnTryAgainButtonEvent'];
 }
 
 class TapOnPostFromListEvent extends PostViewerEvent {
@@ -34,12 +25,9 @@ class TapOnPostFromListEvent extends PostViewerEvent {
   final PostEntity postEntity;
 
   @override
-  List<Object> get props => ['TapOnPostFromListEvent', postEntity];
+  List<Object> get props => [postEntity];
 }
 
 class TapOnBackButtonFromPostPageEvent extends PostViewerEvent {
   const TapOnBackButtonFromPostPageEvent();
-
-  @override
-  List<Object> get props => ['TapOnBackButtonFromPostPageEvent'];
 }

@@ -11,7 +11,4 @@ abstract class ThemeEvent extends Equatable {
 
 class ChangeThemeEvent extends ThemeEvent {
   const ChangeThemeEvent({required ITheme theme}) : super(theme: theme);
-
-  @override
-  List<Object> get props => ['ChangeThemeEvent', theme];
 }

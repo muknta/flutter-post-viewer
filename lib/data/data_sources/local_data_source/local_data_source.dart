@@ -44,10 +44,6 @@ class LocalDataSource implements ILocalDataSource {
     return commentsInJson.map((oneCommentInJson) => CommentTableModel.fromJson(oneCommentInJson)).toList();
   }
 
-  // TODO: check comments deleting with posts
   @override
   Future<bool> deleteAllPosts() => _postSqfliteDao.deleteAll();
-
-  // @override
-  // Future<bool> deleteAllComments() => _commentSqfliteDao.deleteAll();
 }

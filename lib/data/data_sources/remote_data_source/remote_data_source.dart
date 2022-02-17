@@ -12,7 +12,6 @@ class RemoteDataSource implements IRemoteDataSource {
   RemoteDataSource() {
     final dio = Dio();
 
-    // TODO: check in debug mode
     dio.interceptors.add(DioErrorInterceptor());
     _restClient = RestClient(dio);
   }

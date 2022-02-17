@@ -62,8 +62,7 @@ class PostViewerBloc with BlocStreamMixin {
       );
     }
     _addPostState(const DeletingAndInsertingInfoStepAlertState());
-    final bool isSuccessfulDeletingInserting =
-        await DeleteAndInsertPostsWithComments(localRepository: locator<ILocalRepository>()).execute(
+    await DeleteAndInsertPostsWithComments(localRepository: locator<ILocalRepository>()).execute(
       params: PostsWithCommentsParams(
         posts: posts,
         comments: comments,

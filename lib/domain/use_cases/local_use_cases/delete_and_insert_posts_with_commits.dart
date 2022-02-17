@@ -17,7 +17,7 @@ class DeleteAndInsertPostsWithComments implements IUseCase<bool, PostsWithCommen
       ...await _localRepository.insertPosts(posts: params.posts),
       ...await _localRepository.insertComments(comments: params.comments),
     ];
-    return returnValueList.any((expectedPositiveValue) => !expectedPositiveValue);
+    return returnValueList.every((expectedPositiveValue) => expectedPositiveValue);
   }
 }
 

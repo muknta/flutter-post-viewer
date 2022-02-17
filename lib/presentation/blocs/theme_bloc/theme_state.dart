@@ -11,14 +11,8 @@ abstract class ThemeState extends Equatable {
 
 class InitThemeState extends ThemeState {
   const InitThemeState({required ITheme theme}) : super(theme: theme);
-
-  @override
-  List<Object> get props => ['InitThemeState', theme];
 }
 
 class ChangeThemeState extends ThemeState {
   const ChangeThemeState({required ITheme theme}) : super(theme: theme);
-
-  @override
-  List<Object> get props => ['ChangeThemeState', theme];
 }
