@@ -20,14 +20,23 @@ class SqfliteDatabase {
 
   Future<Database> _openDatabase() async => await openDatabase(
         _fullDBPath ??= await _getDBPath(),
-        onCreate: (db, version) => db.execute(
-          '''
+        onCreate: (db, version) async {
+          await db.execute(_sqlCodeCreateTablePosts);
+          await db.execute(_sqlCodeCreateTableComments);
+        },
+        version: 1,
+      );
+
+  final String _sqlCodeCreateTablePosts = '''
         CREATE TABLE ${PostSqfliteSchema.tableName}(
           ${PostSqfliteSchema.id} INTEGER PRIMARY KEY,
           ${PostSqfliteSchema.userId} INTEGER,
           ${PostSqfliteSchema.title} TEXT,
           ${PostSqfliteSchema.body} TEXT
         );
+        ''';
+
+  final String _sqlCodeCreateTableComments = '''
         CREATE TABLE ${CommentSqfliteSchema.tableName}(
           ${CommentSqfliteSchema.id} INTEGER PRIMARY KEY,
           ${CommentSqfliteSchema.postId} INTEGER,
@@ -36,10 +45,7 @@ class SqfliteDatabase {
           ${CommentSqfliteSchema.body} TEXT,
           FOREIGN KEY(${CommentSqfliteSchema.postId}) REFERENCES posts(${PostSqfliteSchema.id})
         );
-        ''',
-        ),
-        version: 1,
-      );
+        ''';
 
   Future<void> _deleteDatabase() async {
     await deleteDatabase(_fullDBPath ??= await _getDBPath());

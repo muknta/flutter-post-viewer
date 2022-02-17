@@ -1,4 +1,5 @@
 import 'package:injectable/injectable.dart';
+import 'package:page_viewer/data/api/db_api/sqflite_api/helpers/const.dart';
 import 'package:page_viewer/data/api/db_api/sqflite_api/schemas/post_sqflite_schema.dart';
 import 'package:page_viewer/data/api/db_api/sqflite_api/sqflite_database.dart';
 import 'package:sqflite/sqflite.dart';
@@ -7,28 +8,34 @@ import 'package:sqflite/sqflite.dart';
 class PostSqfliteDao {
   Future<Database> get _db => SqfliteDatabase.instance.database;
 
-  Future<List<int>> insertAll({required List<Map<String, dynamic>> posts}) async {
-    final listOfReturnedValues = <int>[];
+  Future<List<bool>> insertAll({required List<Map<String, dynamic>> posts}) async {
+    final listOfReturnedValues = <bool>[];
     for (final Map<String, dynamic> post in posts) {
       listOfReturnedValues.add(await insert(post: post));
     }
     return listOfReturnedValues;
   }
 
-  Future<int> insert({required Map<String, dynamic> post}) async => (await _db).insert(
+  Future<bool> insert({required Map<String, dynamic> post}) async =>
+      await (await _db).insert(
         PostSqfliteSchema.tableName,
         post,
-      );
+      ) !=
+      unsuccessfulReturnValueSqflite;
 
-  Future<int> deleteById({required int id}) async => (await _db).delete(
+  Future<bool> deleteById({required int id}) async =>
+      await (await _db).delete(
         PostSqfliteSchema.tableName,
         where: '${PostSqfliteSchema.id} = ?',
 
         /// To prevent SQL injection
         whereArgs: [id],
-      );
+      ) !=
+      unsuccessfulReturnValueSqflite;
 
-  Future<int> deleteAll() async => (await _db).delete(PostSqfliteSchema.tableName);
+  // TODO: check for returned bool
+  Future<bool> deleteAll() async =>
+      await (await _db).delete(PostSqfliteSchema.tableName) != unsuccessfulReturnValueSqflite;
 
   Future<Map<String, dynamic>?> getPostById({required int id}) async {
     final List<Map<String, dynamic>?> queryList = await (await _db).query(

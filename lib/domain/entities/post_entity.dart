@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:page_viewer/data/models/local_models/post_table_model.dart';
 import 'package:page_viewer/data/models/remote_models/post_model.dart';
 
 class PostEntity extends Equatable {
@@ -14,6 +15,13 @@ class PostEntity extends Equatable {
         userId: postModel.userId,
         title: postModel.title,
         body: postModel.body,
+      );
+
+  factory PostEntity.fromPostTableModel({required PostTableModel postTableModel}) => PostEntity._(
+        id: postTableModel.id,
+        userId: postTableModel.userId,
+        title: postTableModel.title,
+        body: postTableModel.body,
       );
 
   final int id;

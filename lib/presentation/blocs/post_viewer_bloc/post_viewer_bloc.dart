@@ -1,7 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:page_viewer/domain/entities/comment_entity.dart';
 import 'package:page_viewer/domain/entities/post_entity.dart';
+import 'package:page_viewer/domain/repositories/local_repositories/i_local_repository.dart';
 import 'package:page_viewer/domain/repositories/remote_repositories/i_remote_repository.dart';
+import 'package:page_viewer/domain/use_cases/local_use_cases/delete_and_insert_posts_with_commits.dart';
+import 'package:page_viewer/domain/use_cases/local_use_cases/get_all_posts.dart';
+import 'package:page_viewer/domain/use_cases/local_use_cases/get_comments_by_post_id.dart';
 import 'package:page_viewer/domain/use_cases/remote_use_cases/fetch_all_posts.dart';
 import 'package:page_viewer/domain/use_cases/remote_use_cases/fetch_comments_by_post_id.dart';
 import 'package:page_viewer/internal/locator.dart';
@@ -27,25 +31,50 @@ class PostViewerBloc with BlocStreamMixin {
 
   Future<void> _handleEvent(PostViewerEvent event) async {
     if (event is InitPostsEvent) {
-      // TODO: make checking from DB
-      await _fetchPostsAndUpdateState();
+      await _getPostsAndUpdateState();
     } else if (event is TapOnLoadPostsButtonEvent || event is TapOnTryAgainButtonEvent) {
-      await _fetchPostsAndUpdateState();
+      await _getPostsAndUpdateState();
     } else if (event is TapOnPostFromListEvent) {
-      await _fetchCommentsAndRouteToPostPage(postEntity: event.postEntity);
+      await _getCommentsAndRouteToPostPage(postEntity: event.postEntity);
     } else if (event is TapOnBackButtonFromPostPageEvent) {
       locator<NavigationService>().navigateToPrevious();
     }
   }
 
-  Future<void> _fetchPostsAndUpdateState() async {
-    final List<PostEntity> postList = await FetchAllPosts(remoteRepository: locator<IRemoteRepository>()).execute();
-    _addPostState(LoadedPostsState(posts: postList));
+  Future<void> _getPostsAndUpdateState() async {
+    List<PostEntity> posts = await GetAllPosts(localRepository: locator<ILocalRepository>()).execute();
+    if (posts.isEmpty) {
+      posts = await _initDBInfo();
+    }
+    _addPostState(LoadedPostsState(posts: posts));
   }
 
-  Future<void> _fetchCommentsAndRouteToPostPage({required PostEntity postEntity}) async {
+  /// Generally DB feature is just representation of knowledge and opportunities.
+  /// For posts and comments DB is useless because we need always updated fetched data using internet.
+  Future<List<PostEntity>> _initDBInfo() async {
+    _addPostState(const FetchingPostsStepAlertState());
+    final List<PostEntity> posts = await FetchAllPosts(remoteRepository: locator<IRemoteRepository>()).execute();
+    final comments = <CommentEntity>[];
+    _addPostState(const FetchingCommentsStepAlertState());
+    for (final PostEntity post in posts) {
+      comments.addAll(
+        await FetchCommentsByPostId(remoteRepository: locator<IRemoteRepository>()).execute(params: post.id),
+      );
+    }
+    _addPostState(const DeletingAndInsertingInfoStepAlertState());
+    final bool isSuccessfulDeletingInserting =
+        await DeleteAndInsertPostsWithComments(localRepository: locator<ILocalRepository>()).execute(
+      params: PostsWithCommentsParams(
+        posts: posts,
+        comments: comments,
+      ),
+    );
+    return posts;
+  }
+
+  Future<void> _getCommentsAndRouteToPostPage({required PostEntity postEntity}) async {
     final List<CommentEntity> commentList =
-        await FetchCommentsByPostId(remoteRepository: locator<IRemoteRepository>()).execute(params: postEntity.id);
+        await GetCommentsByPostId(localRepository: locator<ILocalRepository>()).execute(params: postEntity.id);
     await locator<NavigationService>().navigateTo(
       postRoute,
       arguments: <String, dynamic>{

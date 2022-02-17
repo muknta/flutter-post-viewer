@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:page_viewer/data/api/db_api/sqflite_api/schemas/post_sqflite_schema.dart';
+import 'package:page_viewer/domain/entities/post_entity.dart';
 
 part 'post_table_model.g.dart';
 
@@ -11,6 +12,13 @@ class PostTableModel {
     required this.title,
     required this.body,
   });
+
+  factory PostTableModel.fromPostEntity({required PostEntity postEntity}) => PostTableModel(
+        id: postEntity.id,
+        userId: postEntity.userId,
+        title: postEntity.title,
+        body: postEntity.body,
+      );
 
   factory PostTableModel.fromJson(Map<String, dynamic> json) => _$PostTableModelFromJson(json);
 

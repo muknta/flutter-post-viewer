@@ -7,6 +7,29 @@ abstract class PostViewerState extends Equatable {
   List<Object> get props => [];
 }
 
+/// States that alert about loading steps
+/// and indicate text on home page
+abstract class LoadingStepAlertState extends PostViewerState {
+  const LoadingStepAlertState({required this.message});
+
+  final String message;
+
+  @override
+  List<Object> get props => [message];
+}
+
+class FetchingPostsStepAlertState extends LoadingStepAlertState {
+  const FetchingPostsStepAlertState() : super(message: 'Fetching posts...');
+}
+
+class FetchingCommentsStepAlertState extends LoadingStepAlertState {
+  const FetchingCommentsStepAlertState() : super(message: 'Fetching comments...');
+}
+
+class DeletingAndInsertingInfoStepAlertState extends LoadingStepAlertState {
+  const DeletingAndInsertingInfoStepAlertState() : super(message: 'Inserting posts with comments...');
+}
+
 class LoadedPostsState extends PostViewerState {
   const LoadedPostsState({required this.posts});
 

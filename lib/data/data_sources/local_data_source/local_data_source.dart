@@ -17,14 +17,12 @@ class LocalDataSource implements ILocalDataSource {
   final CommentSqfliteDao _commentSqfliteDao;
 
   @override
-  // TODO: return type
-  Future<void> insertPosts({required List<PostTableModel> posts}) => _postSqfliteDao.insertAll(
+  Future<List<bool>> insertPosts({required List<PostTableModel> posts}) => _postSqfliteDao.insertAll(
         posts: posts.map((post) => post.toJson()).toList(),
       );
 
   @override
-  // TODO: return type
-  Future<void> insertComments({required List<CommentTableModel> comments}) => _commentSqfliteDao.insertAll(
+  Future<List<bool>> insertComments({required List<CommentTableModel> comments}) => _commentSqfliteDao.insertAll(
         comments: comments.map((comment) => comment.toJson()).toList(),
       );
 
@@ -45,4 +43,11 @@ class LocalDataSource implements ILocalDataSource {
     final commentsInJson = await _commentSqfliteDao.getCommentsByPostId(postId: postId);
     return commentsInJson.map((oneCommentInJson) => CommentTableModel.fromJson(oneCommentInJson)).toList();
   }
+
+  // TODO: check comments deleting with posts
+  @override
+  Future<bool> deleteAllPosts() => _postSqfliteDao.deleteAll();
+
+  // @override
+  // Future<bool> deleteAllComments() => _commentSqfliteDao.deleteAll();
 }

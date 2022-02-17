@@ -1,0 +1,1 @@
+const int unsuccessfulReturnValueSqflite = 0;

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:page_viewer/data/models/local_models/comment_table_model.dart';
 import 'package:page_viewer/data/models/remote_models/comment_model.dart';
 
 class CommentEntity extends Equatable {
@@ -16,6 +17,14 @@ class CommentEntity extends Equatable {
         name: commentModel.name,
         email: commentModel.email,
         body: commentModel.body,
+      );
+
+  factory CommentEntity.fromCommentTableModel({required CommentTableModel commentTableModel}) => CommentEntity._(
+        id: commentTableModel.id,
+        postId: commentTableModel.postId,
+        name: commentTableModel.name,
+        email: commentTableModel.email,
+        body: commentTableModel.body,
       );
 
   final int id;
