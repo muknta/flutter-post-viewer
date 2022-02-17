@@ -4,7 +4,7 @@ abstract class PostViewerEvent extends Equatable {
   const PostViewerEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitPostsEvent extends PostViewerEvent {
@@ -25,7 +25,7 @@ class TapOnPostFromListEvent extends PostViewerEvent {
   final PostEntity postEntity;
 
   @override
-  List<Object> get props => [postEntity];
+  List<Object?> get props => [postEntity];
 }
 
 class TapOnBackButtonFromPostPageEvent extends PostViewerEvent {

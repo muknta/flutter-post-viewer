@@ -6,7 +6,7 @@ abstract class ThemeEvent extends Equatable {
   final ITheme theme;
 
   @override
-  List<Object> get props => [theme];
+  List<Object?> get props => [theme];
 }
 
 class ChangeThemeEvent extends ThemeEvent {

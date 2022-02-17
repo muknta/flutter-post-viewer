@@ -34,5 +34,5 @@ class CommentEntity extends Equatable {
   final String body;
 
   @override
-  List<Object> get props => [id, postId, name, email, body];
+  List<Object?> get props => [id, postId, name, email, body];
 }

@@ -30,5 +30,5 @@ class PostEntity extends Equatable {
   final String body;
 
   @override
-  List<Object> get props => [id, userId, title, body];
+  List<Object?> get props => [id, userId, title, body];
 }
