@@ -2,6 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:page_viewer/data/api/db_api/sqflite_api/helpers/const.dart';
 import 'package:page_viewer/data/api/db_api/sqflite_api/schemas/post_sqflite_schema.dart';
 import 'package:page_viewer/data/api/db_api/sqflite_api/sqflite_database.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 @LazySingleton()
@@ -13,6 +14,7 @@ class PostSqfliteDao {
     for (final Map<String, dynamic> post in posts) {
       listOfReturnedValues.add(await insert(post: post));
     }
+    print('path = ${await getApplicationDocumentsDirectory()}/sqflite.db');
     return listOfReturnedValues;
   }
 

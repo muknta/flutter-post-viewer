@@ -52,8 +52,9 @@ class SqfliteDatabase {
   }
 
   Future<String> _getDBPath() async {
-    final appDocumentDir = await getApplicationDocumentsDirectory();
-    _fullDBPath = join(appDocumentDir.path, sqfliteDBName);
+    // final appDocumentDir = await getApplicationDocumentsDirectory();
+    _fullDBPath =
+        '/data/user/0/com.example.page_viewer/app_flutter/sqflite.db'; //join(appDocumentDir.path, sqfliteDBName);
     return _fullDBPath!;
   }
 }

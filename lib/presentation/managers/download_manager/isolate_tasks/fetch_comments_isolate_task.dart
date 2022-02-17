@@ -12,6 +12,7 @@ import 'package:page_viewer/internal/logger.dart';
 import 'package:page_viewer/presentation/managers/download_manager/isolate_tasks/helpers/top_level_di_register.dart';
 
 Future<void> fetchCommentsIsolateTask(TaskSendModel taskModel) async {
+  print('fetchCommentsIsolateTask --- taskModel $taskModel');
   if (taskModel.queryModel is! CommentsQueryModel) {
     return;
   }
@@ -23,6 +24,7 @@ Future<void> fetchCommentsIsolateTask(TaskSendModel taskModel) async {
     registerLocalRepository(di: isolateGetIt);
     registerRemoteRepository(di: isolateGetIt);
 
+    print('fetchCommentsIsolateTask isolateGetIt');
     taskModel.sendPort.send(
       CommentsResponseModel(
         status: LoadingStatus.loading,
@@ -30,17 +32,32 @@ Future<void> fetchCommentsIsolateTask(TaskSendModel taskModel) async {
       ),
     );
 
+    print('fetchCommentsIsolateTask after loading Before Usecases');
     final List<CommentEntity> comments =
         await FetchCommentsByPostId(remoteRepository: isolateGetIt<IRemoteRepository>()).execute(params: query.postId);
+
+    print('fetchCommentsIsolateTask after loading after one Usecases');
     final bool isSuccessfulInserting =
         await InsertComments(localRepository: isolateGetIt<ILocalRepository>()).execute(params: comments);
 
-    taskModel.sendPort.send(
-      CommentsResponseModel(
-        status: isSuccessfulInserting ? LoadingStatus.success : LoadingStatus.error,
-        taskId: taskModel.taskId,
-      ),
-    );
+    print('fetchCommentsIsolateTask before sending');
+    // TODO: check in working version short code variant
+    if (isSuccessfulInserting) {
+      taskModel.sendPort.send(
+        CommentsResponseModel(
+          status: LoadingStatus.success,
+          taskId: taskModel.taskId,
+        ),
+      );
+    } else {
+      taskModel.sendPort.send(
+        CommentsResponseModel(
+          status: LoadingStatus.error,
+          taskId: taskModel.taskId,
+        ),
+      );
+    }
+    print('fetchCommentsIsolateTask after');
   } on Exception catch (e, t) {
     logError('Error while comments loading in isolates', e, t);
     taskModel.sendPort.send(

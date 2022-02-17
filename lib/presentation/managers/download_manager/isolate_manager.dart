@@ -42,7 +42,9 @@ class IsolateManager extends IIsolateManager with BlocStreamMixin {
   }) async {
     late final ILoadingResponseModel loadingModel;
 
+    print('startLoading start ISOLATE MANAGER');
     if (model is CommentsQueryModel) {
+      print('startLoading AFTER IF isolate');
       final int taskId = await _isolateService.startIsolateTask(
         staticFunction: fetchCommentsIsolateTask,
         queryModel: model,
@@ -55,6 +57,7 @@ class IsolateManager extends IIsolateManager with BlocStreamMixin {
       );
     }
 
+    print('startLoading BEFORE SEND isolate');
     _loadingTaskList.add(loadingModel);
     _sendLoadingModel(loadingModel);
 

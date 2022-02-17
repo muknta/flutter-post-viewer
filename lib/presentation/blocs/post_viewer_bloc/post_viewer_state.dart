@@ -1,21 +1,19 @@
 part of 'post_viewer_bloc.dart';
 
-abstract class PostViewerState extends Equatable {
+abstract class PostViewerState {
   const PostViewerState();
-
-  @override
-  List<Object?> get props => [];
 }
 
 /// States that alert about loading steps
 /// and indicate text on home page
+///
+/// This state are needed for UI, so here not extends Equatable
+/// for purpose to throw specific state on the same state
+/// TODO: check in working version with Equatable
 abstract class LoadingStepAlertState extends PostViewerState {
   const LoadingStepAlertState({required this.message});
 
   final String message;
-
-  @override
-  List<Object?> get props => [message];
 }
 
 class FetchingPostsStepAlertState extends LoadingStepAlertState {
@@ -41,7 +39,7 @@ class DeletingAndInsertingInfoStepAlertState extends LoadingStepAlertState {
   const DeletingAndInsertingInfoStepAlertState() : super(message: 'Inserting posts...');
 }
 
-class LoadedPostsState extends PostViewerState {
+class LoadedPostsState extends Equatable implements PostViewerState {
   const LoadedPostsState({required this.posts});
 
   final List<PostEntity> posts;
@@ -50,10 +48,16 @@ class LoadedPostsState extends PostViewerState {
   List<Object?> get props => [posts];
 }
 
-class PostsNotFoundState extends PostViewerState {
+class PostsNotFoundState extends Equatable implements PostViewerState {
   const PostsNotFoundState();
+
+  @override
+  List<Object?> get props => [];
 }
 
-class ErrorWhileLoadingPostsState extends PostViewerState {
+class ErrorWhileLoadingPostsState extends Equatable implements PostViewerState {
   const ErrorWhileLoadingPostsState();
+
+  @override
+  List<Object?> get props => [];
 }

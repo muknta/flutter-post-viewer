@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:page_viewer/domain/entities/comment_entity.dart';
 import 'package:page_viewer/domain/entities/post_entity.dart';
 import 'package:page_viewer/domain/repositories/local_repositories/i_local_repository.dart';
@@ -7,9 +8,7 @@ import 'package:page_viewer/domain/use_cases/local_use_cases/delete_and_insert_p
 import 'package:page_viewer/domain/use_cases/local_use_cases/get_all_posts.dart';
 import 'package:page_viewer/domain/use_cases/local_use_cases/get_comments_by_post_id.dart';
 import 'package:page_viewer/domain/use_cases/remote_use_cases/fetch_all_posts.dart';
-import 'package:page_viewer/domain/use_cases/remote_use_cases/fetch_comments_by_post_id.dart';
 import 'package:page_viewer/internal/locator.dart';
-import 'package:page_viewer/internal/logger.dart';
 import 'package:page_viewer/internal/navigation/navigation.dart';
 import 'package:page_viewer/presentation/managers/download_manager/download_manager.dart';
 import 'package:page_viewer/presentation/managers/download_manager/download_state.dart';
@@ -36,6 +35,8 @@ class PostViewerBloc with BlocStreamMixin {
   final _downloadStateController = BehaviorSubject<IDownloadState>();
   Function(IDownloadState) get _addDownloadState => sinkAdd(_downloadStateController);
 
+  FetchingCommentsStepAlertState? _fetchingCommentsAlert;
+
   Future<void> _handleEvent(PostViewerEvent event) async {
     if (event is InitPostsEvent) {
       await _getPostsAndUpdateState();
@@ -49,24 +50,15 @@ class PostViewerBloc with BlocStreamMixin {
   }
 
   Future<void> _handleDownloadState(IDownloadState state) async {
-    if (state is DownloadDoneState) {
-      print('errrror $state');
-      if (!await postStateStream.isEmpty) {
-        print('errrror not emp');
-        final PostViewerState postState = (await postStateStream.first);
-        print('errrror $postState');
-        if (postState is FetchingCommentsStepAlertState) {
-          print('${postState._fetchedNumber}/${postState._overallNumber}');
-          _addPostState(postState.copyWithIncrementedFetchedNumber());
-        }
-        if (postState is LoadingStepAlertState) {
-          print(postState.message);
-        }
-      }
+    if (state is DownloadDoneState && _fetchingCommentsAlert != null) {
+      _fetchingCommentsAlert = _fetchingCommentsAlert!.copyWithIncrementedFetchedNumber();
+      _addPostState(_fetchingCommentsAlert!);
+      print('${_fetchingCommentsAlert!._fetchedNumber}/${_fetchingCommentsAlert!._overallNumber}');
     } else if (state is DownloadingState) {
-      print('DownloadingState');
+      _addPostState(const FetchingPostsStepAlertState());
+      debugPrint('DownloadingState');
     } else if (state is DownloadErrorState) {
-      print('DownloadErrorState');
+      debugPrint('DownloadErrorState');
     }
   }
 
@@ -87,7 +79,8 @@ class PostViewerBloc with BlocStreamMixin {
     _addPostState(const DeletingAndInsertingInfoStepAlertState());
     await DeleteAndInsertPosts(localRepository: locator<ILocalRepository>()).execute(params: posts);
 
-    _addPostState(FetchingCommentsStepAlertState(overallNumber: posts.length));
+    _fetchingCommentsAlert = FetchingCommentsStepAlertState(overallNumber: posts.length);
+    _addPostState(_fetchingCommentsAlert!);
     final List<int> postIdList = posts.map((post) => post.id).toList();
     DownloadManager(sendState: _addDownloadState).download(postIdList: postIdList);
     return posts;

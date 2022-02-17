@@ -23,6 +23,7 @@ abstract class ITaskManager {
     int taskId = 0;
 
     for (final int postId in postIdList) {
+      print('added task');
       observer.add(CommentsDownloadTask(
           taskId: ++taskId,
           postId: postId,
@@ -30,7 +31,7 @@ abstract class ITaskManager {
             observer.complete(id);
           }));
       // TODO: For a test
-      // if (postId == 10) break;
+      if (postId == 3) break;
     }
   }
 

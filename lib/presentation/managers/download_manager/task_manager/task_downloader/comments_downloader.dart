@@ -27,6 +27,7 @@ class CommentsDownloader with BlocStreamMixin implements ITaskDownloader<Comment
   Function(CommentsDownloadTask) get sendTask => sinkAdd(_commentsTaskController);
 
   Future<void> _executeCommentsDownload(CommentsDownloadTask task) async {
+    print('start _executeCommentsDownload');
     final commentsDownloader = CommentsSingleTaskDownloader(
       queryModel: CommentsQueryModel(
         postId: task.postId,
@@ -34,6 +35,7 @@ class CommentsDownloader with BlocStreamMixin implements ITaskDownloader<Comment
     );
 
     commentsDownloader.statusStream.listen((status) {
+      print('check status _executeCommentsDownload STATUc - $status');
       if (loadingStatusIsError(status)) {
         sendErrorState(const DownloadErrorState());
         commentsDownloader.dispose();
@@ -47,7 +49,9 @@ class CommentsDownloader with BlocStreamMixin implements ITaskDownloader<Comment
   }
 
   Future<void> _executeTask(IDownloadTask task) async {
+    print('_executeTask');
     if (task is CommentsDownloadTask) {
+      print('CommentsDownloadTask');
       _executeCommentsDownload(task).then(
         (_) => task.onComplete(task.taskId),
         onError: (_) {

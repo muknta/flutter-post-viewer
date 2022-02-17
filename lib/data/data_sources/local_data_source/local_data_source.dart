@@ -4,6 +4,7 @@ import 'package:page_viewer/data/api/db_api/sqflite_api/dao/post_sqflite_dao.dar
 import 'package:page_viewer/data/data_sources/local_data_source/i_local_data_source.dart';
 import 'package:page_viewer/data/models/local_models/comment_table_model.dart';
 import 'package:page_viewer/data/models/local_models/post_table_model.dart';
+import 'package:path_provider/path_provider.dart';
 
 @LazySingleton(as: ILocalDataSource)
 class LocalDataSource implements ILocalDataSource {
@@ -22,9 +23,13 @@ class LocalDataSource implements ILocalDataSource {
       );
 
   @override
-  Future<List<bool>> insertComments({required List<CommentTableModel> comments}) => _commentSqfliteDao.insertAll(
-        comments: comments.map((comment) => comment.toJson()).toList(),
-      );
+  Future<List<bool>> insertComments({required List<CommentTableModel> comments}) async {
+    print('before LocalDataSo insertComm');
+    print('path ${await getApplicationDocumentsDirectory()}');
+    return _commentSqfliteDao.insertAll(
+      comments: comments.map((comment) => comment.toJson()).toList(),
+    );
+  }
 
   @override
   Future<List<PostTableModel>> getAllPosts() async {
