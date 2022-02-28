@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:page_viewer/presentation/themes/dark_themes/dark_theme.dart';
 import 'package:page_viewer/presentation/themes/i_theme.dart';
+import 'package:page_viewer/presentation/themes/light_themes/light_theme.dart';
 import 'package:page_viewer/presentation/utils/mixins/bloc_stream_mixin.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -20,7 +21,7 @@ class ThemeBloc with BlocStreamMixin {
   Stream<ThemeState> get themeStateStream => _themeStateController.stream;
   Function(ThemeState) get _addState => sinkAdd(_themeStateController);
 
-  ITheme get theme => _themeStateController.value.theme;
+  ITheme get theme => _themeStateController.value.theme is DarkTheme ? const LightTheme() : const DarkTheme();
 
   void _handleEvent(ThemeEvent event) {
     if (event is ChangeThemeEvent) {
